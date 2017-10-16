@@ -11,12 +11,15 @@ public static class QuestionInitializer
 
         List<Question> questions = new List<Question>();
 
-        using (StreamReader reader = new StreamReader("pathToJson"))
-        {
-            string jsonString = reader.ReadToEnd(); /*of*/ string jsonLine = reader.ReadLine();
-            //Do Jsonstuff
-            questions.Add(new Question(0, "hi", new List<Answer>()));
-        }
+        //using (StreamReader reader = new StreamReader("pathToJson.txt"))
+        //{
+        //    string jsonString = reader.ReadToEnd(); /*of*/ string jsonLine = reader.ReadLine();
+        //    Do Jsonstuff
+        //    questions.Add(new Question(0, "hi", new List<Answer>() { new Answer("hi2", 1) }));
+        //}
+
+        questions.Add(new Question(0, "hi", new List<Answer>() { new Answer("hi2", 1), new Answer("hello", 2), new Answer("doe is aardig", 3) }));
+        questions.Add(new Question(1, "hi", new List<Answer>() { new Answer("1234234234234234234", 1), new Answer("hello", 2), new Answer("doe is aardig", 3) }));
         return questions;
     }
 }

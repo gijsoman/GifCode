@@ -4,11 +4,11 @@ using System.Collections;
 public class Answer
 {
     public string answerText;
-    public int answerPath;
+    public int answerId;
 
-    public Answer(string answerText, int answerPath)
+    public Answer(string answerText, int answerId)
     {
         this.answerText = answerText;
-        this.answerPath = answerPath;
+        this.answerId = answerId;
     }
 }
