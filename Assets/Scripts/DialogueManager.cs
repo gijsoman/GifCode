@@ -69,6 +69,13 @@ public class DialogueManager : MonoBehaviour {
 
     void SetText()
     {
+        //first empty all the texts
+        clientText.text = null;
+        for (int i = 0; i < userOptionsText.Length; i++)
+        {
+            userOptionsText[i].text = null;
+        }
+
         //set all the texts
         clientText.text = currentQuestion.questionText;
         for (int i = 0; i < currentQuestion.answers.Count; i++)
