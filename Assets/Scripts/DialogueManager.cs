@@ -14,6 +14,7 @@ public class DialogueManager : MonoBehaviour
     Text clientText;
     Text[] userOptionsText = new Text[4];
     List<Question> questions;
+    Stack<Question> previousQuestions = new Stack<Question>();
 
     public Question currentQuestion;
 
@@ -37,8 +38,22 @@ public class DialogueManager : MonoBehaviour
         //reload scene for debugging purposes
         if (Input.GetKey("space"))
         {
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+        if (Input.GetKeyDown("backspace"))
+        {
+            try
+            {
+                currentQuestion = previousQuestions.Pop();
+                SetText();
+            }
+            catch(Exception)
+            {
+                Debug.Log("Er is geen vorige vraag");
+            }
+        }
+
     }
 
     private static List<Question> InitializeQuestions()
@@ -54,6 +69,7 @@ public class DialogueManager : MonoBehaviour
         //added some errorhandling  if there is no text on the button there is no answer so i dont want to set my currentquestion
         try
         {
+            previousQuestions.Push(currentQuestion);
             currentQuestion = questions.First(question => question.id == currentQuestion.answers[buttonNumber].answerId);
         }
         catch (Exception)
@@ -67,10 +83,10 @@ public class DialogueManager : MonoBehaviour
     void SetText()
     {
         //set all the texts
-        clientText.text = currentQuestion.questionText;
+        clientText.text = currentQuestion.id.ToString() + "| " + currentQuestion.questionText;
         for (int i = 0; i < currentQuestion.answers.Count; i++)
         {
-            userOptionsText[i].text = currentQuestion.answers[i].answerText;
+            userOptionsText[i].text = currentQuestion.answers[i].answerId.ToString() + "| " + currentQuestion.answers[i].answerText;
         }
 
         for (int i = currentQuestion.answers.Count; i < userOptionsText.Length; i++)

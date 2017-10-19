@@ -9,23 +9,20 @@ public static class QuestionInitializer
     public static List<Question> InitializeQuestions()
     {
         //Hier mag je questions initializen en vanuit JSon halen, voorbeeld van hoe het misschien kan.
-        string[] linar = new string[10];
+        string[] linar;
         List<Question> questions = new List<Question>();
+        TextAsset file = Resources.Load<TextAsset>("flitsScenarioAgressief");
+        string[] lines = file.text.Split('\n');
 
-        using (StreamReader reader = new StreamReader("Assets/Scripts/flitsScenarioAgressief.txt", Encoding.Default))
+        for (int i = 0; i < lines.Length; i++)
         {
-            string line;
-
-            while ((line = reader.ReadLine()) != null)
+            linar = lines[i].Split('|');
+            List<Answer> answers = new List<Answer>();
+            for (int j = 2; j < linar.Length - 1; j += 2)
             {
-                linar = line.Split('|');
-                List<Answer> answers = new List<Answer>();
-                for (int i = 2; i < linar.Length - 1; i += 2)
-                {
-                    answers.Add(new Answer(int.Parse(linar[i]), linar[i + 1]));
-                }
-                questions.Add(new Question(int.Parse(linar[0]), linar[1], answers));
+                answers.Add(new Answer(int.Parse(linar[j]), linar[j + 1]));
             }
+            questions.Add(new Question(int.Parse(linar[0]), linar[1], answers));
         }
 
         return questions;
