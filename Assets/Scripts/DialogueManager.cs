@@ -11,18 +11,21 @@ public class DialogueManager : MonoBehaviour
 
     public GameObject clientTextBox;
     public GameObject[] userOptionsButtons;
+    Timer timer;
     Text clientText;
     Text[] userOptionsText = new Text[4];
     List<Question> questions;
     Stack<Question> previousQuestions = new Stack<Question>();
-
+    
     public Question currentQuestion;
 
     // Use this for initialization
     void Start()
     {
+        timer = GameObject.Find("Timer").GetComponent<Timer>();
         questions = InitializeQuestions();
         currentQuestion = questions[0];
+
         //get the text components from all the objects
         clientText = clientTextBox.GetComponent<Text>();
         for (int i = 0; i < userOptionsButtons.Length; i++)
@@ -30,6 +33,7 @@ public class DialogueManager : MonoBehaviour
             userOptionsText[i] = userOptionsButtons[i].GetComponentInChildren<Text>();
         }
         SetText();
+        timer.setTimer(10);
     }
 
     // Update is called once per frame
@@ -47,6 +51,7 @@ public class DialogueManager : MonoBehaviour
             {
                 currentQuestion = previousQuestions.Pop();
                 SetText();
+                timer.setTimer(10);
             }
             catch(Exception)
             {
@@ -78,6 +83,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         SetText();
+        timer.setTimer(10);
     }
 
     void SetText()
