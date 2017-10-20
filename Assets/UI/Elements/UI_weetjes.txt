@@ -1,0 +1,10 @@
+Menu background
+left-align 
+#000426
+50% opacity
+
+Text karakter
+Gotham Medium
+#000426
+
+
