@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour
             userOptionsText[i] = userOptionsButtons[i].GetComponentInChildren<Text>();
         }
         SetText();
-        timer.setTimer(10);
+        timer.setTimer();
     }
 
     // Update is called once per frame
@@ -51,7 +51,7 @@ public class DialogueManager : MonoBehaviour
             {
                 currentQuestion = previousQuestions.Pop();
                 SetText();
-                timer.setTimer(10);
+                timer.setTimer();
             }
             catch(Exception)
             {
@@ -83,7 +83,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         SetText();
-        timer.setTimer(10);
+        timer.setTimer();
     }
 
     void SetText()

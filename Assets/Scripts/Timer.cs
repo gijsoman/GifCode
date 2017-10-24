@@ -6,36 +6,42 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    Stopwatch stopwatch = new Stopwatch();
-    long curTime = 0;
-    long maxTime = 0;
-    // DISPLAY ON SCREEN: (maxTime - curTime) / 1000
-    // END SCORE SCREEN: curTime / 1000 (or beautify)
-    // TEXT FIELD OR CLOCK LINK TO UNITY
+    public float timePerQuestion;
     Text timerText;
+    public int amountOfDots;
+
+    [System.NonSerialized]
+    public bool timerSet;
+    [System.NonSerialized]
+    public float timePerDot;
+    [System.NonSerialized]
+    public float lastTime;
 
     private void Start()
     {
         timerText = this.gameObject.GetComponentInChildren<Text>();
-        stopwatch.Start();
+        timePerDot = timePerQuestion / amountOfDots;
+        lastTime = timePerQuestion;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        curTime = stopwatch.ElapsedMilliseconds;
-        if (curTime > maxTime)
+        //if the timer not is set than dont substract
+        if (timerSet)
         {
-            TimeUp();
+            timePerQuestion -= Time.deltaTime;
+            timerText.text = timePerQuestion.ToString("f0");
+            if (timePerQuestion <= 0)
+            {
+                timerSet = false;
+                TimeUp();
+            }
         }
-        timerText.text = ((maxTime - curTime) / 1000).ToString();
     }
 
-    public void setTimer(int time)
+    public void setTimer()
     {
-        time *= 1000;
-        maxTime = stopwatch.ElapsedMilliseconds + time;
-        curTime = stopwatch.ElapsedMilliseconds;
+        timerSet = true;
     }
 
     void TimeUp()
