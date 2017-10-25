@@ -1,51 +1,118 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Diagnostics;
-using System;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+    //We can give in a time in the editor
     public float timePerQuestion;
-    Text timerText;
     public int amountOfDots;
 
-    [System.NonSerialized]
-    public bool timerSet;
-    [System.NonSerialized]
-    public float timePerDot;
-    [System.NonSerialized]
-    public float lastTime;
+    //We want a local variable to keep track of the time and not the in editor variable when we set the timer again.
+    float currentTime;
+    Text timerText;
 
-    private void Start()
+    //We need a dot prefab and a list where we put instantiated dots in.
+    public GameObject dotPrefab;
+    List<GameObject> dots = new List<GameObject>();
+
+    //some variables for dot placement.
+    RectTransform timerRect;
+    RectTransform dotRect;
+
+    //we need to check if the timer is set before we start removing dots.
+    // bool timerSet;
+
+    //to keep track of the last time a dot was removed
+    float lastTime;
+
+    //to figure out how much time a dot has for lifetime
+    float timePerDot;
+
+    //to keep track of the amount of disabled dots
+    int amountOfEnabledDots;
+
+
+    void Awake()
+    {
+        timerRect = this.gameObject.GetComponent<RectTransform>();
+        CreateDots(dotPrefab);
+    }
+    void Start()
     {
         timerText = this.gameObject.GetComponentInChildren<Text>();
         timePerDot = timePerQuestion / amountOfDots;
-        lastTime = timePerQuestion;
     }
 
     void Update()
     {
-        //if the timer not is set than dont substract
-        if (timerSet)
+        if (!TimeUp())
         {
-            timePerQuestion -= Time.deltaTime;
-            timerText.text = timePerQuestion.ToString("f0");
-            if (timePerQuestion <= 0)
-            {
-                timerSet = false;
-                TimeUp();
-            }
+            currentTime -= Time.deltaTime;
+            timerText.text = currentTime.ToString("f0");
+            DisableDotsOnTime();
+        }
+        else
+        {
+            Debug.Log("Time is up");
+        }
+        
+    }
+
+    public void SetTimer()
+    {
+        EnableAllDots();
+        amountOfEnabledDots = amountOfDots;
+        currentTime = timePerQuestion;
+        lastTime = currentTime;
+    }
+
+    bool TimeUp()
+    { 
+        if (currentTime <= 0)
+        {
+            DisableAllDots();
+            return true;
+        }
+        else{ return false; }
+    }
+
+    void CreateDots(GameObject dotPrefab)
+    {
+        for (int i = 0; i < amountOfDots; i++)
+        {
+            GameObject dot = Instantiate(dotPrefab) as GameObject;
+            dots.Add(dot);
+            dotRect = dot.GetComponent<RectTransform>();
+            dot.transform.parent = this.transform;
+            dot.transform.localPosition = new Vector2(timerRect.rect.x + dotRect.rect.size.x / 2 + (dotRect.rect.size.x * i), timerRect.rect.y + dotRect.rect.size.y / 2);
         }
     }
 
-    public void setTimer()
+    void DisableAllDots()
     {
-        timerSet = true;
+        for (int i = 0; i < amountOfDots; i++)
+        {
+            dots[i].gameObject.SetActive(false);
+        }
     }
 
-    void TimeUp()
+    void EnableAllDots()
     {
-        throw new Exception();
+        for (int i = 0; i < amountOfDots; i++)
+        {
+            dots[i].gameObject.SetActive(true);
+        }
+    }
+
+    void DisableDotsOnTime()
+    {
+        if (currentTime <= lastTime - timePerDot)
+        {
+            dots[amountOfEnabledDots - 1].gameObject.SetActive(false);
+            lastTime = currentTime;
+            amountOfEnabledDots--;
+        }
     }
 }
