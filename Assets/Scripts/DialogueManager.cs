@@ -58,6 +58,10 @@ public class DialogueManager : MonoBehaviour
                 Debug.Log("Er is geen vorige vraag");
             }
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
 
     }
 

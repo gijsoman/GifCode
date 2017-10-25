@@ -59,7 +59,7 @@ public class Timer : MonoBehaviour
         else
         {
             Debug.Log("Time is up");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(0);
         }
         
     }
