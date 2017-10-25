@@ -75,6 +75,7 @@ public class Timer : MonoBehaviour
         if (currentTime <= 0)
         {
             DisableAllDots();
+            ResetAnimatorBools();
             return true;
         }
         else{ return false; }
@@ -123,6 +124,14 @@ public class Timer : MonoBehaviour
             {
                 animators[amountOfEnabledDots - 1].SetBool("MayBreak", true);
             }
+        }
+    }
+
+    void ResetAnimatorBools()
+    {
+        for (int i = 0; i < amountOfDots; i++)
+        {
+            animators[i].SetBool("MayBreak", false);
         }
     }
 }
