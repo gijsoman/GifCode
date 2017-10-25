@@ -33,6 +33,8 @@ public class Timer : MonoBehaviour
     //to keep track of the amount of disabled dots
     int amountOfEnabledDots;
 
+    //We need to edit parameters of the animator
+    List<Animator> animators = new List<Animator>();
 
     void Awake()
     {
@@ -84,6 +86,7 @@ public class Timer : MonoBehaviour
         {
             GameObject dot = Instantiate(dotPrefab) as GameObject;
             dots.Add(dot);
+            animators.Add(dot.GetComponent<Animator>());
             dotRect = dot.GetComponent<RectTransform>();
             dot.transform.parent = this.transform;
             dot.transform.localPosition = new Vector2(timerRect.rect.x + dotRect.rect.size.x / 2 + (dotRect.rect.size.x * i), timerRect.rect.y + dotRect.rect.size.y / 2);
@@ -113,6 +116,13 @@ public class Timer : MonoBehaviour
             dots[amountOfEnabledDots - 1].gameObject.SetActive(false);
             lastTime = currentTime;
             amountOfEnabledDots--;
+        }
+        if (currentTime <= lastTime - timePerDot + 0.9)
+        {
+            if (animators[amountOfEnabledDots -1].GetBool("MayBreak") != true)
+            {
+                animators[amountOfEnabledDots - 1].SetBool("MayBreak", true);
+            }
         }
     }
 }
