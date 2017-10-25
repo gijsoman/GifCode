@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,12 +59,14 @@ public class Timer : MonoBehaviour
         else
         {
             Debug.Log("Time is up");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         
     }
 
     public void SetTimer()
     {
+        ResetAnimatorBools();
         EnableAllDots();
         amountOfEnabledDots = amountOfDots;
         currentTime = timePerQuestion;
@@ -132,6 +135,7 @@ public class Timer : MonoBehaviour
         for (int i = 0; i < amountOfDots; i++)
         {
             animators[i].SetBool("MayBreak", false);
+            animators[i].Rebind();
         }
     }
 }

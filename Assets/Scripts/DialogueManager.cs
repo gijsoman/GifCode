@@ -89,10 +89,10 @@ public class DialogueManager : MonoBehaviour
     void SetText()
     {
         //set all the texts
-        clientText.text = currentQuestion.id.ToString() + "| " + currentQuestion.questionText;
+        clientText.text = /* currentQuestion.id.ToString() + "| " + */currentQuestion.questionText;
         for (int i = 0; i < currentQuestion.answers.Count; i++)
         {
-            userOptionsText[i].text = currentQuestion.answers[i].answerId.ToString() + "| " + currentQuestion.answers[i].answerText;
+            userOptionsText[i].text = /*currentQuestion.answers[i].answerId.ToString() + "| " +*/ currentQuestion.answers[i].answerText;
         }
 
         for (int i = currentQuestion.answers.Count; i < userOptionsText.Length; i++)
