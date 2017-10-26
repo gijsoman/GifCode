@@ -1151,8 +1151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076950a60d75eab4c8d4ea307daee1f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timePerQuestion: 10
-  amountOfDots: 5
+  timePerQuestion: 45
+  amountOfDots: 6
   dotPrefab: {fileID: 1796916003038764, guid: 70c497c2290f446409d0e2415f1de28c, type: 2}
 --- !u!1 &1056240252
 GameObject:
