@@ -18,11 +18,11 @@ public static class QuestionInitializer
         {
             linar = lines[i].Split('|');
             List<Answer> answers = new List<Answer>();
-            for (int j = 2; j < linar.Length - 1; j += 2)
+            for (int j = 3; j < linar.Length - 1; j += 2)
             {
                 answers.Add(new Answer(int.Parse(linar[j]), linar[j + 1]));
             }
-            questions.Add(new Question(int.Parse(linar[0]), linar[1], answers));
+            questions.Add(new Question(int.Parse(linar[0]), linar[1], linar[2], answers));
         }
 
         return questions;

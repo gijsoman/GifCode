@@ -12,6 +12,7 @@ public class DialogueManager : MonoBehaviour
     public GameObject clientTextBox;
     public GameObject[] userOptionsButtons;
     Timer timer;
+    Character character;
     Text clientText;
     Text[] userOptionsText = new Text[4];
     List<Question> questions;
@@ -23,6 +24,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         timer = GameObject.Find("Timer").GetComponent<Timer>();
+        character = GameObject.Find("Character").GetComponent<Character>();
         questions = InitializeQuestions();
         currentQuestion = questions[0];
 
@@ -33,6 +35,7 @@ public class DialogueManager : MonoBehaviour
             userOptionsText[i] = userOptionsButtons[i].GetComponentInChildren<Text>();
         }
         SetText();
+        SetEmotion();
         timer.SetTimer();
     }
 
@@ -51,6 +54,7 @@ public class DialogueManager : MonoBehaviour
             {
                 currentQuestion = previousQuestions.Pop();
                 SetText();
+                SetEmotion();
                 timer.SetTimer();
             }
             catch(Exception)
@@ -87,6 +91,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         SetText();
+        SetEmotion();
         timer.SetTimer();
     }
 
@@ -103,5 +108,10 @@ public class DialogueManager : MonoBehaviour
         {
             userOptionsText[i].text = "";
         }
+    }
+
+    void SetEmotion()
+    {
+        character.SetEmotion(currentQuestion.emotion);
     }
 }
